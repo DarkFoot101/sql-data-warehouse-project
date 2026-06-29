@@ -5,62 +5,73 @@
 -- WARNING - Data loaded will be appended , unless truncated first 
 -- ====================================================
 
--- cust_info
-LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/cust_info.csv'
-INTO TABLE bronze.crm_cust_info
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+-- lets create a stored procedure as we will reucse it everytime 
+DROP PROCEDURE IF EXISTS bronze.load_bronze_data;
 
-SELECT * FROM bronze.crm_cust_info;
+DELIMITER $$
 
--- prd_info
-LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/prd_info.csv'
-INTO TABLE bronze.crm_prd_info
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+CREATE PROCEDURE bronze.load_bronze()
+BEGIN
+	-- cust_info
+	LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/cust_info.csv'
+	INTO TABLE bronze.crm_cust_info
+	FIELDS TERMINATED BY ','
+	OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 ROWS;
 
-SELECT * FROM bronze.crm_prd_info;
+	-- SELECT * FROM bronze.crm_cust_info;
 
--- sales_details
-LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/sales_details.csv'
-INTO TABLE bronze.crm_sales_details
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+	-- prd_info
+	LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/prd_info.csv'
+	INTO TABLE bronze.crm_prd_info
+	FIELDS TERMINATED BY ','
+	OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 ROWS;
 
-SELECT * FROM bronze.crm_sales_details;
+	-- SELECT * FROM bronze.crm_prd_info;
 
--- cust_az12
-LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/CUST_AZ12.csv'
-INTO TABLE bronze.erp_cust_az12
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+	-- sales_details
+	LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/sales_details.csv'
+	INTO TABLE bronze.crm_sales_details
+	FIELDS TERMINATED BY ','
+	OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 ROWS;
 
-SELECT * FROM bronze.erp_cust_az12;
+	-- SELECT * FROM bronze.crm_sales_details;
 
--- loc_a101
-LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/loc_a101.csv'
-INTO TABLE bronze.erp_loc_a101
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+	-- cust_az12
+	LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/CUST_AZ12.csv'
+	INTO TABLE bronze.erp_cust_az12
+	FIELDS TERMINATED BY ','
+	OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 ROWS;
 
-SELECT * FROM bronze.erp_loc_a101;
+	-- SELECT * FROM bronze.erp_cust_az12;
 
--- px_cat_g1v2
-LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/px_cat_g1v2.csv'
-INTO TABLE bronze.erp_px_cat_g1v2
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+	-- loc_a101
+	LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/loc_a101.csv'
+	INTO TABLE bronze.erp_loc_a101
+	FIELDS TERMINATED BY ','
+	OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 ROWS;
 
-SELECT * FROM bronze.erp_px_cat_g1v2;
+	-- SELECT * FROM bronze.erp_loc_a101;
+
+	-- px_cat_g1v2
+	LOAD DATA LOCAL INFILE '/Users/akhi/Desktop/px_cat_g1v2.csv'
+	INTO TABLE bronze.erp_px_cat_g1v2
+	FIELDS TERMINATED BY ','
+	OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 ROWS;
+
+	-- SELECT * FROM bronze.erp_px_cat_g1v2;
+	-- TRUNCATE THE TABLE IF YOU WANT FRESH DATA EVERYDAY
+    -- DON'T TRUNCATE THE TABLE IF YOU WANT CONTINOUS SETS OF DATA COMING UP.
+END$$
+DELIMITER ;
